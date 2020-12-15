@@ -21,6 +21,7 @@ ACTION_FILLNOP = "lazyida:fillnop"
 ACTION_PASTE = "lazyida:paste"
 ACTION_DUMPER = "lazyida:dumper"
 ACTION_JMP = "lazyida:jmper"
+ACTION_GOTOEA = "huskygg:gotoea"
 
 ACTION_HX_REMOVERETTYPE = "lazyida:hx_removerettype"
 ACTION_HX_COPYEA = "lazyida:hx_copyea"
@@ -251,6 +252,13 @@ def copy_to_clip(data):
 def clip_text():
     return QApplication.clipboard().text()
 
+def jump_ea():
+    ea_point = idc.here()
+    ea = idc.Dword(ea_point)
+    if idc.jumpto(ea):
+        print("jump to 0x%x success" % ea)
+    else:
+        print("0x%x jump err" % ea)
 
 def parse_location(loc):
     try:
@@ -313,6 +321,8 @@ class hotkey_action_handler_t(idaapi.action_handler_t):
             #   print("Goto location 0x%x" % loc)
             #   idc.jumpto(loc)
             jmper_windows(hex_cleaner(clip_text()))
+        elif self.action == ACTION_GOTOEA:
+            jump_ea()
         return 1
 
     def update(self, ctx):
@@ -758,6 +768,9 @@ class LazyIDA_t(idaapi.plugin_t):
                                  "Copy current EA", 0),
             idaapi.action_desc_t(ACTION_GOTOCLIP, "Goto clip EA", hotkey_action_handler_t(ACTION_GOTOCLIP), "Shift-G",
                                  "Goto clipboard EA", 0),
+            idaapi.action_desc_t(ACTION_GOTOEA, "Goto EA", hotkey_action_handler_t(ACTION_GOTOEA), "Shift-Q",
+                                 "Goto EA", 0),
+
         )
         for action in hotkey_actions:
             idaapi.register_action(action)

@@ -48,4 +48,7 @@ Shift + G, LazyIDA will copy the address from clipboard, and fill it in 'Target 
   - lazy dumper, A tool for dump  memory to a file, you can specify it size in ui.
 
 ![](https://x1hy9.oss-cn-beijing.aliyuncs.com/img/%7B9ED5EC0D-3338-0CA6-EB59-7414CFB9C4E8%7D.jpg)
-  
+
+#### HuskyGG更新部分
+- 添加 shift+Q快捷键：获取光标当前内存Dword为指针进行跳转；
+
